@@ -2,6 +2,9 @@
 
 This repository documents a proposal to support internationalisation of R help pages.
 
+This project started at the 2023 R Project Sprint.
+More [in this issue](https://github.com/r-devel/r-project-sprint-2023/issues/35).
+
 ## How it's supposed to work
 
 -   Original packages have their "canonical" help pages written in the original languages.
