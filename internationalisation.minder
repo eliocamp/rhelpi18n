@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
-<minder version="1.15.6" parent-etag="2874984740" etag="2666490808">
-  <theme name="solarized_light" label="Solarized Light" index="2"/>
+<minder version="1.15.6" parent-etag="2557407752" etag="314042196">
+  <theme name="solarized_light" label="Solarized Light" index="-1"/>
   <styles>
     <style level="0" isset="true" branchmargin="20" branchradius="25" linktype="curved" linkwidth="4" linkarrow="false" linkdash="solid" nodeborder="rounded" nodewidth="200" nodeborderwidth="4" nodefill="false" nodemargin="10" nodepadding="10" nodefont="Sans 11" nodemarkup="true" connectiondash="dotted" connectionlwidth="2" connectionarrow="fromto" connectionpadding="3" connectionfont="Sans 10" connectiontwidth="100"/>
     <style level="1" isset="true" branchmargin="20" branchradius="25" linktype="curved" linkwidth="4" linkarrow="false" linkdash="solid" nodeborder="underlined" nodewidth="200" nodeborderwidth="4" nodefill="false" nodemargin="8" nodepadding="6" nodefont="Sans 11" nodemarkup="true" connectiondash="dotted" connectionlwidth="2" connectionarrow="fromto" connectionpadding="3" connectionfont="Sans 10" connectiontwidth="100"/>
@@ -147,10 +147,10 @@
         </node>
       </nodes>
     </node>
-    <node id="34" posx="-89.656412760416288" posy="297.35837809244754" width="146" height="46" side="left" fold="false" treesize="46" layout="Manual" group="false">
+    <node id="34" posx="-89.656412760416288" posy="297.35837809244754" width="157" height="46" side="left" fold="false" treesize="46" layout="Manual" group="false">
       <style branchmargin="20" branchradius="25" linktype="curved" linkwidth="4" linkarrow="false" linkdash="solid" nodeborder="underlined" nodewidth="200" nodeborderwidth="4" nodefill="false" nodemargin="8" nodepadding="6" nodefont="Sans 11" nodemarkup="true"/>
       <nodename maxwidth="200">
-        <text data="load_package()*"/>
+        <text data="loadNamespace()"/>
       </nodename>
       <nodenote></nodenote>
     </node>
@@ -195,7 +195,7 @@
       <title>installs into</title>
       <note></note>
     </connection>
-    <connection from_id="20" to_id="29" drag_x="314.53754431251457" drag_y="115.87427378088461">
+    <connection from_id="20" to_id="29" drag_x="314.53754431251446" drag_y="115.87427378088461">
       <style connectiondash="solid" connectionlwidth="2" connectionarrow="fromto" connectionpadding="3" connectionfont="Sans 10" connectiontwidth="100"/>
       <title></title>
       <note></note>
@@ -212,7 +212,7 @@
     </connection>
     <connection from_id="34" to_id="1" drag_x="-179.39932759602868" drag_y="110.62072753906261">
       <style connectiondash="solid" connectionlwidth="2" connectionarrow="fromto" connectionpadding="3" connectionfont="Sans 10" connectiontwidth="100"/>
-      <title>loads</title>
+      <title>loadNamespace</title>
       <note></note>
     </connection>
     <connection from_id="34" to_id="19" drag_x="241.70969645182299" drag_y="218.5195999145505">
@@ -235,7 +235,7 @@
       <title>disambiguates</title>
       <note></note>
     </connection>
-    <connection from_id="39" to_id="18" drag_x="-165.468100432386" drag_y="415.34862667669029">
+    <connection from_id="39" to_id="18" drag_x="-165.468100432386" drag_y="415.34862667669034">
       <style connectiondash="solid" connectionlwidth="2" connectionarrow="fromto" connectionpadding="3" connectionfont="Sans 10" connectiontwidth="100"/>
       <title>looks for help in</title>
       <note></note>
@@ -245,7 +245,7 @@
       <title>installs into</title>
       <note></note>
     </connection>
-    <connection from_id="26" to_id="1" drag_x="323.76384525044773" drag_y="-179.02907246058027">
+    <connection from_id="26" to_id="1" drag_x="323.76384525044762" drag_y="-179.02907246058027">
       <style connectiondash="solid" connectionlwidth="2" connectionarrow="fromto" connectionpadding="3" connectionfont="Sans 10" connectiontwidth="100"/>
       <title>only contains</title>
       <note></note>
