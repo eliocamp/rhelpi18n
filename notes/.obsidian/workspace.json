@@ -1,0 +1,152 @@
+{
+  "main": {
+    "id": "3edc0842a9b4162f",
+    "type": "split",
+    "children": [
+      {
+        "id": "956cd15e04a8cde2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "b849d3f6304e5bdc",
+            "type": "leaf",
+            "state": {
+              "type": "graph",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "83f9a1f799f9e7ae",
+    "type": "split",
+    "children": [
+      {
+        "id": "da40fd00abd5404c",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "351898db9b607d54",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "6943b439ffa53e8c",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              }
+            }
+          },
+          {
+            "id": "9297dd58e91c3924",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "9230fbe3a3ed253a",
+    "type": "split",
+    "children": [
+      {
+        "id": "f167e707ef7b4cd3",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "81534035acc5ad66",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "fb4b6000882e0721",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              }
+            }
+          },
+          {
+            "id": "835a760ffbf79457",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              }
+            }
+          },
+          {
+            "id": "a54a5cc56db61d7c",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {}
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "b849d3f6304e5bdc",
+  "lastOpenFiles": [
+    "resources.md",
+    "Untitled.md",
+    "`help()` annotated.md",
+    "meetings/2024-02-05_michael-deepayan-elio.md",
+    "Welcome.md",
+    "create a link.md",
+    "`index.search()` annotated.md",
+    "meetings"
+  ]
+}
