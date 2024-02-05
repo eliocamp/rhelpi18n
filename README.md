@@ -31,6 +31,11 @@ And then search for help on that function in Spanish with
 help_i18n("hello_world", language = "es")
 ```
 
+The help pane will show you that this function is documented in both languages 
+and you can chose which you prefer.
+
+![](images/clipboard-1567246723.png)
+
 Below, the [How it's supposed to work] section describes a more complex approach using .po files that might be used later.
 
 **Problems**
