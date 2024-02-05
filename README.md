@@ -31,17 +31,17 @@ And then search for help on that function in Spanish with
 help_i18n("hello_world", language = "es")
 ```
 
-The help pane will show you that this function is documented in both languages 
-and you can chose which you prefer.
+The help pane will show you that this function is documented in both languages and you can chose which you prefer.
 
 ![](images/clipboard-1567246723.png)
 
-Below, the [How it's supposed to work] section describes a more complex approach using .po files that might be used later.
+Below, the [How it's supposed to work](#how-its-supposed-to-work) section describes a more complex approach using .po files that might be used later.
 
 **Problems**
 
 1.  The user needs to click on the translated documentation every time
 2.  In case of name conflicts, the disambiguation menu will show the translation at the same level as other packages, so it's confusing for the user.
+3.  The usage section doesn't work.
 
 ## How it's supposed to work
 
