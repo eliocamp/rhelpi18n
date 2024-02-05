@@ -5,6 +5,45 @@ This repository documents a proposal to support internationalisation of R help p
 This project started at the 2023 R Project Sprint.
 More [in this issue](https://github.com/r-devel/r-project-sprint-2023/issues/35).
 
+## First prototype
+
+For a minimal working product, we will first host translations in .Rd form in a separate package.
+
+-   dummy: [https://github.com/eliocamp/ri18n-dummy](https://github.com/eliocamp/ri18n-dummy.es){.uri}
+
+-   dummy.es: <https://github.com/eliocamp/ri18n-dummy.es>
+
+### Status quo
+
+Running `help("hello_world")` returns `No documentation for ‘hello_world’ in specified packages and libraries`.
+Expected because we didn't load any package.
+
+Running
+
+``` r
+library(dummy) 
+help("hello_world")
+```
+
+Opens up the documentation for `dummy::helo_world()`.
+
+``` r
+library(dummy) 
+library(dummy.es)
+help("hello_world")
+```
+
+Opens up the disambiguation menu.
+
+On the other hand, `?dummy::hello_world` opens up the dummy documentation.
+
+**Problems**
+
+1.  The user needs to load both packages for `help()` to even offer the translated documentation
+2.  The user needs to click on the translated documentation every time
+3.  In case of name conflicts, the disambiguation menu will show the translation at the same level as other packages, so it's confusing for the user.
+4.  In case of name conflicts, if the user uses `?pkgname::fun()`, `help()` will show only the original documentation.
+
 ## How it's supposed to work
 
 -   Original packages have their "canonical" help pages written in the original languages.
