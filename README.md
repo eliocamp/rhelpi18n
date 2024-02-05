@@ -13,38 +13,30 @@ For a minimal working product, we will first host translations in .Rd form in a 
 
 -   dummy.es: <https://github.com/eliocamp/ri18n-dummy.es>
 
+Install both packages and this one with
+
+``` r
+pak::pak(c("eliocamp/ri18n-dummy", "eliocamp/ri18n-dummy.es", "eliocamp/rhelpi18n"))
+```
+
+Load dummy with
+
+``` r
+library(dummy)
+```
+
+And then search for help on that function in Spanish with
+
+``` r
+help_i18n("hello_world", language = "es")
+```
+
 Below, the [How it's supposed to work] section describes a more complex approach using .po files that might be used later.
-
-### Status quo
-
-Running `help("hello_world")` returns `No documentation for ‘hello_world’ in specified packages and libraries`.
-Expected because we didn't load any package.
-
-Running
-
-``` r
-library(dummy)
-help("hello_world")
-```
-
-Opens up the documentation for `dummy::helo_world()`.
-
-``` r
-library(dummy)
-library(dummy.es)
-help("hello_world")
-```
-
-Opens up the disambiguation menu.
-
-On the other hand, `?dummy::hello_world` opens up the dummy documentation.
 
 **Problems**
 
-1.  The user needs to load both packages for `help()` to even offer the translated documentation
-2.  The user needs to click on the translated documentation every time
-3.  In case of name conflicts, the disambiguation menu will show the translation at the same level as other packages, so it's confusing for the user.
-4.  In case of name conflicts, if the user uses `?pkgname::fun()`, `help()` will show only the original documentation.
+1.  The user needs to click on the translated documentation every time
+2.  In case of name conflicts, the disambiguation menu will show the translation at the same level as other packages, so it's confusing for the user.
 
 ## How it's supposed to work
 
