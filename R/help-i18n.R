@@ -1,5 +1,12 @@
+#' Searches for help with multilingual support
+#'
+#' @inheritParams utils::help
+#' @param language language code
+#'
+#' @export
 help_i18n <- function (topic, package = NULL, lib.loc = NULL, verbose = getOption("verbose"),
-          try.all.packages = getOption("help.try.all.packages"), help_type = getOption("help_type")) {
+          try.all.packages = getOption("help.try.all.packages"), help_type = getOption("help_type"),
+          language = NULL) {
   types <- c("text", "html", "pdf")
   help_type <- if (!length(help_type))
     "text"
@@ -18,7 +25,7 @@ help_i18n <- function (topic, package = NULL, lib.loc = NULL, verbose = getOptio
           get("aqua.browser", envir = as.environment("tools:RGUI"))
         }
         else getOption("browser")
-        browseURL(paste0("http://127.0.0.1:", port,
+        utils::browseURL(paste0("http://127.0.0.1:", port,
                          "/library/", package, "/html/00Index.html"),
                   browser)
         return(invisible())
@@ -43,17 +50,29 @@ help_i18n <- function (topic, package = NULL, lib.loc = NULL, verbose = getOptio
       stop("'topic' should be a name, length-one character vector or reserved word")
     topic <- stopic
   }
-  paths <- utils:::index.search(topic, find.package(if (is.null(package))
-    loadedNamespaces()
-    else package, lib.loc, verbose = verbose))
+
+  if (is.null(package)) {
+    search_package <- loadedNamespaces()
+  } else {
+    search_package <- package
+  }
+  search_package <- add_and_load_translations(search_package, language = language)
+
+  package_paths <- find.package(search_package, lib.loc, verbose = verbose)
+  paths <- index.search(topic, package_paths)
+
   try.all.packages <- !length(paths) && is.logical(try.all.packages) &&
     !is.na(try.all.packages) && try.all.packages && is.null(package) &&
     is.null(lib.loc)
+
   if (try.all.packages) {
     for (lib in .libPaths()) {
       packages <- .packages(TRUE, lib)
       packages <- packages[is.na(match(packages, .packages()))]
-      paths <- c(paths, utils:::index.search(topic, file.path(lib,
+
+      packages <- add_and_load_translations(packages, language = language)
+
+      paths <- c(paths, index.search(topic, file.path(lib,
                                                       packages)))
     }
     paths <- paths[nzchar(paths)]

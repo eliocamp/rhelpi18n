@@ -1,12 +1,14 @@
 Package: rhelpi18n
-Title: What the Package Does (One Line, Title Case)
+Title: Adds Support por Multilingual Help Pages
 Version: 0.0.0.9000
 Authors@R: 
-    person("First", "Last", , "first.last@example.com", role = c("aut", "cre"),
-           comment = c(ORCID = "YOUR-ORCID-ID"))
-Description: What the package does (one paragraph).
-License: `use_mit_license()`, `use_gpl3_license()` or friends to pick a
-    license
+    person("Elio", "Campitelli", , "elio.campitelli@cima.fcen.uba.ar", role = c("cre", "aut"),
+           comment = c(ORCID = "0000-0002-7742-9230"))
+Description: Extends the help system to add support for multilingual help pages. 
+  Multilingual documentation can be installed by installing translation modules. 
+License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.2.3
+Imports: 
+    pkgload

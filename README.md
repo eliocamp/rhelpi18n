@@ -23,14 +23,14 @@ Expected because we didn't load any package.
 Running
 
 ``` r
-library(dummy) 
+library(dummy)
 help("hello_world")
 ```
 
 Opens up the documentation for `dummy::helo_world()`.
 
 ``` r
-library(dummy) 
+library(dummy)
 library(dummy.es)
 help("hello_world")
 ```
@@ -70,7 +70,7 @@ On the other hand, `?dummy::hello_world` opens up the dummy documentation.
 
 ## Concept map
 
-![](internationalisation.svg)
+![](notes/internationalisation.svg)
 
 ## Changes needed
 
