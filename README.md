@@ -13,6 +13,8 @@ For a minimal working product, we will first host translations in .Rd form in a 
 
 -   dummy.es: <https://github.com/eliocamp/ri18n-dummy.es>
 
+Below, the [How it's supposed to work] section describes a more complex approach using .po files that might be used later.
+
 ### Status quo
 
 Running `help("hello_world")` returns `No documentation for ‘hello_world’ in specified packages and libraries`.
