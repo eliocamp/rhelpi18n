@@ -11,11 +11,52 @@
             "id": "b849d3f6304e5bdc",
             "type": "leaf",
             "state": {
-              "type": "graph",
-              "state": {}
+              "type": "markdown",
+              "state": {
+                "file": "`help()` annotated.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "537e9004cf127da0",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "`print.help_files_with_topic()` annotated.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "2e959014943fb71c",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "`print.help_files_with_topic()` annotated.md",
+                "mode": "source",
+                "source": false
+              }
+            }
+          },
+          {
+            "id": "5770e44b97c7bd16",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Dynamic Help.md",
+                "mode": "source",
+                "source": false
+              }
             }
           }
-        ]
+        ],
+        "currentTab": 3
       }
     ],
     "direction": "vertical"
@@ -81,6 +122,7 @@
             "state": {
               "type": "backlink",
               "state": {
+                "file": "Dynamic Help.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -97,6 +139,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
+                "file": "Dynamic Help.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -118,15 +161,16 @@
             "type": "leaf",
             "state": {
               "type": "outline",
-              "state": {}
+              "state": {
+                "file": "Dynamic Help.md"
+              }
             }
           }
         ]
       }
     ],
     "direction": "horizontal",
-    "width": 300,
-    "collapsed": true
+    "width": 300
   },
   "left-ribbon": {
     "hiddenItems": {
@@ -138,15 +182,23 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "b849d3f6304e5bdc",
+  "active": "5770e44b97c7bd16",
   "lastOpenFiles": [
-    "resources.md",
-    "Untitled.md",
+    "rd-flattening.Rmd",
+    "`print.help_files_with_topic()` annotated.md",
+    "Dynamic Help.md",
+    "translate-rd.Rmd",
+    "How the help server works.md",
+    "`index.search()` annotated.md",
     "`help()` annotated.md",
+    "internationalisation.jpg",
+    "internationalisation.svg",
+    "resources.md",
+    "meetings/2024-02-08_office-hours.md",
+    "`index.search` annotated.md",
     "meetings/2024-02-05_michael-deepayan-elio.md",
     "Welcome.md",
     "create a link.md",
-    "`index.search()` annotated.md",
     "meetings"
   ]
 }

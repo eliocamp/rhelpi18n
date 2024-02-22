@@ -1,0 +1,390 @@
+---
+title: "Translation of Rd"
+author: "Elio"
+date: "2024-02-14"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+
+rd2char <- function(x, n = 1) {
+  
+  tag <- attr(x, "Rd_tag")
+  
+  if (is.null(tag)) {
+    if (n == 1) {
+      tag <- deparse(substitute(x))
+    } else {
+      tag <- "NULL"  
+    }
+    
+  }
+  if (!is.list(x)) {
+    x <- gsub("\\n", "\\\\n", x)
+    # browser()
+    return(paste0("<", tag, "> ", '"', x, '"'))
+  } 
+  sep <- paste0("\n", strrep("  ", n), "└─")
+  elements <- vapply(seq_along(x), function(i) paste0(sep, "[", i, "]", rd2char(x[[i]], n = n + 2)), FUN.VALUE = character(1))
+  
+  # browser(expr = tag == "\\item")
+  # browser()
+  elements <- paste0(elements, collapse = "")  
+  
+  
+  out <- paste0("<", tag, ">", elements)  
+  
+  
+  # browser()
+  return(out)
+}
+
+
+print.Rd <- function(x) {
+  cat(rd2char(x, n = 1))
+}
+
+list2char <- function(x, title = NULL, n = 1) {
+  
+  if (is.null(title)) {
+    if (n == 1) {
+      title <- deparse(substitute(x))
+    } else {
+      title <- ""  
+    }
+    
+  }
+  if (!is.list(x)) {
+    x <- gsub("\\n", "\\\\n", x)
+    # browser()
+    return(paste0("$", title, ": ", '"', x, '"'))
+  } 
+  sep <- paste0("\n", strrep("  ", n), "└─")
+  elements <- vapply(seq_along(x), function(i) paste0(sep, "[", i, "]", list2char(x[[i]],
+                                                                                  title = names(x)[i], 
+                                                                                  n = n + 2)),
+                     FUN.VALUE = character(1))
+  
+  elements <- paste0(elements, collapse = "")  
+  
+  out <- paste0("$", title, ": ", elements)  
+  
+  
+  return(out)
+}
+
+
+print.rdlist <- function(x){
+  title <- deparse(substitute(x))
+  cat(list2char(x, title, n = 1))
+}
+
+```
+
+After a lot of going around, the Rd file is converted either to HTML, text or pdf with `tools::Rd2HTML()`, `Rd2txt()` or `Rd2latex()`, respectively. 
+These "take the output of `tools::parse_Rd()`, an Rd object, and produce a help page from it. As they are mainly intended for internal use, their interfaces are subject to change."
+
+I think a good place to do the translation is right before this / during this. 
+Potentially it could be better to use `Rd2HTML()` to do the translation because it would be able to include HTML-specific tricks like links, hover, warnings for outdated documentation, etc. 
+But that function is extremely complex, so this would be a better first step. 
+
+For example, the relevant snipped for HTML help, found on lines [555-557 in `tools:::httpd()`](https://github.com/r-devel/r-svn/blob/b2c5976be46a2470d2174cb9b04667771f3b08de/src/library/tools/R/dynamicHelp.R#L555-L557) is:
+
+```r
+Rd2HTML(utils:::.getHelpFile(file.path(path, helpdoc)),
+out = outfile, package = dirpath,
+dynamic = TRUE, outputEncoding = "UTF-8")
+```
+
+`utils:::.getHelpFile()` is not `tools::parse_Rd()`, but apparently the output is the same (`tools::parse_Rd()` might run at install time and then `utils:::.getHelpFile()` might fetch that result back). 
+
+So, we could either sneak a `translate_rd()` function before `Rd2HTML()` or modify `Rd2HTML()` to do call `translate_rd()` first.
+In any case, we need a function that takes an Rd object and some structure with the translated strings and returns a new Rd object with the strings replaced. 
+
+```{r}
+library(dummy)
+help <- help("hello_world")
+
+(rd <- utils:::.getHelpFile(help[1]))
+```
+
+This is just a list with some attributes and I implemented a custom printing method to make it easier to understand. 
+Tags are printed between "<>" and elements that are lists have their contents printed nested under "└". 
+
+Each element of the list is a section or tag that is another list with one element per line. 
+The "Rd_tag" attribute holds the tag name. 
+
+So, the first element:
+
+```{r}
+rd[[1]]
+```
+
+
+Is a list with Rd_tag `\\title`. 
+The first (and only) element of the list is the title, which has the "Rd_tag" `TEXT`.
+This is printed by my custom method like this: 
+
+```{r}
+print.Rd(rd[[1]])
+```
+
+The sixth element is the arguments section, which is more complex:
+
+```{r}
+print.Rd(rd[[6]])
+```
+
+Each argument is represented by an `\\item` tag, which has two elements, the name of the argument and then the description. 
+
+Sections with multiple lines are split into different elements of the list, but the newline character is still preserved. 
+Links to other functions are list elements with the tag `\\link`. 
+
+Take a more complex help page:
+
+```{r}
+(rd <- utils:::.getHelpFile(help("mean")))
+```
+
+Pieces of text that are code are inside lists, as well as text with emphasis. 
+
+How to arrange all this for translation is not trivial and now I'm feeling that the translation might be better done before parsing this complex structure. 
+The translation strings should be something like 
+
+```{r}
+list(
+  title = list(
+    original = "Arithmetic Mean",
+    translation = "Media aritmética"
+  ),
+  arguments = list(
+    x = list(
+      original = "an \\R object.  Currently there are methods for numeric/logical vectors and \\link[=Dates]{date}, \\link{date-time} and \\link{time interval} objects.  Complex vectors are allowed for \\code{trim = 0}, only.",
+      translation = "un objecto \\R. Actualmente hay métodos para vectores lógicos/numéricos y de \\link[=Dates]{fecha}...."
+    )
+  )
+)
+```
+
+That is, each section should be in its own place, with the original and the translation (the original is there in order to check that the translation is up-to-date), but the innards of each section shouldn't be parsed.
+
+One solution would be to convert the rd object into something more manageable. 
+For example:
+
+```{r}
+remove_newlines <- function(x) {
+  x <- gsub("^\\n", "", x)
+  x
+}
+
+## Creates text, including tags and options to each section. 
+## Should be applied to:
+## 1. each section
+## 2. each argument name
+## 3. each description
+## 
+to_text <- function(x) {
+  tag <- attr(x, "Rd_tag")
+  
+  if (!is.null(tag) && !startsWith(tag, "\\")) {
+    return(x[[1]])
+  }
+
+  inner <- vapply(x, to_text, FUN.VALUE = character(1))
+
+  if (!is.null(tag)) {
+
+    option <- attr(x, "Rd_option")
+    if (!is.null(option)) {
+      option <- paste0("[", option, "]") 
+    }
+    inner <- paste(inner, collapse = "}{")
+    return(paste0(tag, option, "{", inner, "}"))
+  }
+  
+  inner <- paste(inner, collapse = "")
+  return(inner)
+}
+
+rd_tags <- function(help_db) {
+  tags <- vapply(help_db, function(x) attr(x, "Rd_tag"), FUN.VALUE = character(1))
+  gsub("\\\\", "", tags)
+}
+
+untranslatable <- c(
+  "alias", 
+  "name",
+  "keyword",
+  "concept",
+  "usage"
+)
+
+
+make_text <- function(x) {
+  tag <- attr(x, "Rd_tag")
+
+  ## Here I treat the arguments section differently. 
+  ## Maybe a better way would be to correctly parse \item{}{}
+  ## elements
+  if (tag != "\\arguments") {
+    text <- vapply(x, to_text, FUN.VALUE = character(1))
+    text <- paste(text, collapse = "") |> 
+      remove_newlines() 
+    if (tag %in% paste0("\\", untranslatable)) {
+      return(text)
+    }
+    return(list(original = text, 
+                translation = NULL))
+  }
+  browser(expr = tag == "\\item")
+  
+  text <- lapply(x, function(y) {
+    tag <- attr(y, "Rd_tag")
+    
+    if (tag == "\\item") {
+      description <- list(original = to_text(y[[2]]),
+                          translation = NULL)
+      attr(description, "name") <- to_text(y[[1]])
+      return(description)
+    }
+    return(NULL)
+  })
+  
+  text <- text[!vapply(text, is.null, FUN.VALUE = logical(1))]
+  
+  names <- vapply(text, function(x) attr(x, "name"), FUN.VALUE = character(1))
+  names(text) <- names
+  return(text)
+}
+
+rd_list <- function(rd) {
+  list <- lapply(rd, make_text)
+  names(list) <- rd_tags(rd)
+  class(list) <- "rdlist"
+  list
+}
+
+
+mean_rd_list <- rd_list(rd)
+
+```
+
+
+```{r}
+mean_rd_list
+```
+
+There's some details here with whitespace and newlines that could be improved, but I think this is quite good!
+
+
+```{r}
+write_template <- function(rd_list) {
+
+  rd_list <- rd_list[!(names(rd_list) %in% untranslatable)]
+  
+  yaml::write_yaml(rd_list, here::here("notes/mean.yaml"))  
+}
+write_template(mean_rd_list)
+```
+
+```{r}
+mean_es <- yaml::read_yaml(here::here("notes/mean.es.yaml")) 
+class(mean_es) <- "rdlist"
+```
+
+
+```{r}
+translate <- function(original, translation) {
+  
+  translation <- translation[!(names(translation) %in% untranslatable)]
+  
+  sections <- names(original)
+  sections <- sections[!(sections %in% untranslatable)]
+  for (section in sections)  {
+    
+    
+    if (!is.null(translation[[section]])) {
+      if (is.character(original[[section]]$original)) {
+        version_matches <- original[[section]]$original == translation[[section]]$original
+        translation_exists <- !is.null(translation[[section]]$translation)
+        
+        if (version_matches && translation_exists) {
+          original[[section]] <- translation[[section]]$translation
+        } else {
+          # If the translation is out of date?
+          # For now, keep the original
+          original[[section]] <- original[[section]]$original  
+        }
+      }
+      
+      if (is.list(original[[section]])) {
+        original[[section]] <- translate(original[[section]], translation[[section]])
+        
+      }
+    } else {
+      
+      original[[section]] <- original[[section]]$original  
+    }
+  }
+  return(original)
+}
+
+(mean_translated <- translate(mean_rd_list, mean_es))
+
+```
+
+```{r}
+
+section2char <- function(x) {
+  
+  if (is.character(x)) {
+    return(x)
+  } 
+  
+  paste(paste0("\\item{", names(x), "}{", unlist(x), "}"), 
+        collapse = "\n") 
+  
+}
+list2rdtext <- function(x) {
+  texts <- vapply(x, section2char, FUN.VALUE = character(1))
+  
+  paste(paste0("\\", names(x), "{", texts, "}"), 
+        collapse = "\n")
+}
+
+parse_rdlist <- function(rdlist) {
+  text <- list2rdtext(rdlist)
+  file <- tempfile()
+  writeLines(text, file)
+  tools::parse_Rd(file)
+}
+
+
+parse_rdlist(mean_translated)
+
+
+```
+
+```{r}
+translate_helpfile <- function(helpfile) {
+  
+  original <- rd_list(helpfile)
+  original$usage <- "mean(x, \\dots{})\n\n\\method{mean}{default}(x, trim = 0, na.rm = FALSE, \\dots{})\n"
+  translation <- yaml::read_yaml("/home/elio/Documents/r-packages/internationalisation/rhelpi18n/notes/mean.es.yaml")
+  
+  translated <- translate(original, translation)
+  
+  parse_rdlist(translated)
+}
+```
+
+
+```{r}
+translate_helpfile(utils:::.getHelpFile(help("mean")))
+
+```
+
+
+

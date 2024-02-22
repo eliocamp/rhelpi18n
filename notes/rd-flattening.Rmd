@@ -1,0 +1,49 @@
+---
+title: "flattening Rd"
+author: "Elio"
+date: "2024-02-22"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+For translation, the Rd files should be parsed into something like this:
+The translation strings should be something like 
+
+```{r}
+list(
+  title = list(
+    original = "Arithmetic Mean",
+    translation = "Media aritmética"
+  ),
+  arguments = list(
+    x = list(
+      original = "an \\R object.  Currently there are methods for numeric/logical vectors and \\link[=Dates]{date}, \\link{date-time} and \\link{time interval} objects.  Complex vectors are allowed for \\code{trim = 0}, only.",
+      translation = "un objecto \\R. Actualmente hay métodos para vectores lógicos/numéricos y de \\link[=Dates]{fecha}...."
+    )
+  )
+)
+```
+
+
+Problem: `tools::parse_Rd` and `utils::.getHelpfile()` don't return the same exact structure
+
+
+```{r}
+rd_file <- "/home/elio/Documents/r-svn/src/library/base/man/mean.Rd"
+parsed_rd <- tools::parse_Rd(rd_file)
+
+help_file <- utils:::.getHelpFile(help("mean"))
+```
+
+
+```{r}
+parsed_rd[2]
+```
+
+```{r}
+help_file[1]
+```
+

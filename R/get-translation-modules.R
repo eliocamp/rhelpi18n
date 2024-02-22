@@ -8,7 +8,9 @@ add_and_load_translations <- function(packages, language) {
   return(packages)
 }
 
+#' @export
 get_translation_modules <- function(packages, language) {
+
   stopifnot(!missing(packages))
   stopifnot(length(language) == 1)   # TODO: eventually relax this
 
