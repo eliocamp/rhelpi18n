@@ -26,7 +26,9 @@ library(rhelpi18n)
 Sys.setenv(LANGUAGE = "es")
 ```
 
-Now `base::mean()`'s help page will be displayed in Spanish
+Now `base::mean()`'s help page will be displayed in Spanish.
+
+![Video of RStudio GUI. The help("mean") displays help's documentation in Enslihg. Then, after running library(rhelpi18n9 and Sys.setenv(LANGUAGE = "es"), help("mean") shows the documentation in Spanish.](images/ayuda-2024-02-22_19.10.05.mp4)
 
 This will work with the HTML documentation displayed by R GUIs like RStudio, as well as with text documentation displayed by R in the console. 
 
