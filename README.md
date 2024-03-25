@@ -1,3 +1,7 @@
+<!-- badges: start -->
+[![Lifecycle: experimental](https://img.shields.io/badge/lifecycle-experimental-orange.svg)](https://lifecycle.r-lib.org/articles/stages.html#experimental)
+<!-- badges: end -->
+
 # Internationalisation of R help pages
 
 This repository documents a proposal to support internationalisation of R help pages.
