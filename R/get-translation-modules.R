@@ -10,7 +10,6 @@ add_and_load_translations <- function(packages, language) {
 
 #' @export
 get_translation_modules <- function(packages, language) {
-
   stopifnot(!missing(packages))
   stopifnot(length(language) == 1)   # TODO: eventually relax this
 
@@ -36,6 +35,7 @@ get_translation_modules <- function(packages, language) {
 ## TODO: needs to take into account the ISO hierarchy.
 ## i.e.: if target_language is "es-AR", then "es" is good, but "es-AR" is better.
 ## if target language is "es", then "es-AR" is also good.
+## Issue: https://github.com/eliocamp/rhelpi18n/issues/9
 resolve_lang <- function(languages, target_language) {
   languages == target_language
 }

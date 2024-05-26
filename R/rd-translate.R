@@ -1,7 +1,6 @@
 #' @param Rd helpfile
 #' @export
 rd_translate <- function(Rd, translation) {
-
   untranslatable <- attr(translation, "untranslatable")
   Rd <- rd_flatten(Rd)
 

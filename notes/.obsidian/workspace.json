@@ -54,9 +54,21 @@
                 "source": false
               }
             }
+          },
+          {
+            "id": "bed087dc3463cb0f",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "`help()` annotated.md",
+                "mode": "source",
+                "source": false
+              }
+            }
           }
         ],
-        "currentTab": 3
+        "currentTab": 4
       }
     ],
     "direction": "vertical"
@@ -122,7 +134,7 @@
             "state": {
               "type": "backlink",
               "state": {
-                "file": "Dynamic Help.md",
+                "file": "`help()` annotated.md",
                 "collapseAll": false,
                 "extraContext": false,
                 "sortOrder": "alphabetical",
@@ -139,7 +151,7 @@
             "state": {
               "type": "outgoing-link",
               "state": {
-                "file": "Dynamic Help.md",
+                "file": "`help()` annotated.md",
                 "linksCollapsed": false,
                 "unlinkedCollapsed": true
               }
@@ -162,7 +174,7 @@
             "state": {
               "type": "outline",
               "state": {
-                "file": "Dynamic Help.md"
+                "file": "`help()` annotated.md"
               }
             }
           }
@@ -182,7 +194,7 @@
       "command-palette:Open command palette": false
     }
   },
-  "active": "5770e44b97c7bd16",
+  "active": "351898db9b607d54",
   "lastOpenFiles": [
     "rd-flattening.Rmd",
     "`print.help_files_with_topic()` annotated.md",

@@ -23,21 +23,16 @@ rd2char <- function(x, n = 1) {
   }
   if (!is.list(x)) {
     x <- gsub("\\n", "\\\\n", x)
-    # browser()
     return(paste0("<", tag, "> ", '"', x, '"'))
   } 
   sep <- paste0("\n", strrep("  ", n), "└─")
   elements <- vapply(seq_along(x), function(i) paste0(sep, "[", i, "]", rd2char(x[[i]], n = n + 2)), FUN.VALUE = character(1))
   
-  # browser(expr = tag == "\\item")
-  # browser()
   elements <- paste0(elements, collapse = "")  
   
   
   out <- paste0("<", tag, ">", elements)  
   
-  
-  # browser()
   return(out)
 }
 
@@ -58,7 +53,6 @@ list2char <- function(x, title = NULL, n = 1) {
   }
   if (!is.list(x)) {
     x <- gsub("\\n", "\\\\n", x)
-    # browser()
     return(paste0("$", title, ": ", '"', x, '"'))
   } 
   sep <- paste0("\n", strrep("  ", n), "└─")
@@ -238,7 +232,6 @@ make_text <- function(x) {
     return(list(original = text, 
                 translation = NULL))
   }
-  browser(expr = tag == "\\item")
   
   text <- lapply(x, function(y) {
     tag <- attr(y, "Rd_tag")

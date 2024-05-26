@@ -11,7 +11,6 @@ list2char <- function(x, title = NULL, n = 1) {
   }
   if (!is.list(x)) {
     x <- gsub("\\n", "\\\\n", x)
-    # browser()
     return(paste0("$", title, ": ", '"', x, '"'))
   }
   sep <- paste0("\n", strrep("  ", n), "└─")

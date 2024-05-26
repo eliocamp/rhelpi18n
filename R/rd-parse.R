@@ -55,8 +55,6 @@ make_text <- function(x, untranslatable) {
     return(list(original = text,
                 translation = NULL))
   }
-  browser(expr = tag == "\\item")
-
   text <- lapply(x, function(y) {
     tag <- attr(y, "Rd_tag")
 

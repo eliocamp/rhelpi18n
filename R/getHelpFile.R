@@ -12,7 +12,6 @@
   if (is.null(language)) {
     return(rd)
   }
-  # browser()
   name <- basename(file)
   translation_modules <- get_translation_modules(pkgname, language = language)
   if (length(translation_modules) == 0) {
