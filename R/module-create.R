@@ -5,21 +5,26 @@
 #' functions to load translations.
 #'
 #' @param module_name Name of the translation module. It needs to be a valid
-#' package name.
+#' package name. If missing, it will be created as the name of the package.language.
 #' @param package_path Path to the package that will be translated.
 #' @param language Language of the translation module
 #' @param path Path where the module will be created.
-#' @param rstudio_project Logical indicating wether to create an .Rproj file.
+#' @param rstudio_project Logical indicating whether to create an .Rproj file.
 #'
 #' @export
-i18n_module_create <- function(module_name, package_path, language, path,
+i18n_module_create <- function(module_name = NULL, package_path, language, path,
                                    rstudio_project = TRUE) {
-  if (!valid_package_name(module_name)) {
-    stop(module_name, " is not a valid package name")
-  }
 
   package <- get_package_name(package_path)
   version <- get_package_version(package_path)
+
+  if (is.null(module_name)) {
+    module_name <- paste(package, language, sep = ".")
+  }
+
+  if (!valid_package_name(module_name)) {
+    stop(module_name, " is not a valid package name")
+  }
 
   module_path <- file.path(path, module_name)
 
