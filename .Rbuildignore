@@ -2,3 +2,5 @@
 ^\.Rproj\.user$
 ^LICENSE\.md$
 ^notes$
+inst/extdata/translation_skeleton/
+images

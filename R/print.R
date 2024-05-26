@@ -28,7 +28,7 @@ list2char <- function(x, title = NULL, n = 1) {
 }
 
 #' @export
-print.Rd_flat <- function(x){
+print.Rd_flat <- function(x, ...){
   title <- deparse(substitute(x))
   cat(list2char(x, title, n = 1))
 }

@@ -1,4 +1,3 @@
-#' @export
 rd_flatten <- function(Rd,
                        untranslatable = c(
                          "alias",
@@ -18,8 +17,7 @@ rd_flatten <- function(Rd,
   list
 }
 
-#' @export
-rd_flatten_to_yaml <- function(rd_flat, file) {
+rd_flat_to_yaml <- function(rd_flat, file) {
   untranslatable <- attr(rd_flat, "untranslatable")
 
   rd_flat <- rd_flat[!(names(rd_flat) %in% untranslatable)]

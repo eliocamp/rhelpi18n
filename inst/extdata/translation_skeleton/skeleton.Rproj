@@ -1,0 +1,7 @@
+Version: 1.0
+
+Encoding: UTF-8
+
+BuildType: Package
+PackageUseDevtools: Yes
+PackageInstallArgs: --no-multiarch --with-keep.source
