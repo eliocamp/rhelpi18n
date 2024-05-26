@@ -14,12 +14,12 @@ More [in this issue](https://github.com/r-devel/r-project-sprint-2023/issues/35)
 Translations are hosted in "translation modules", which are regular packages. 
 For now, these are in an exported object called `translations`. 
 
-The [dummy.es](https://github.com/eliocamp/ri18n-dummy.es) package hosts translations for `base::mean()`. 
+The [base.es](https://github.com/eliocamp/base.es) package hosts translations for `base::mean()`. 
 
 Install both packages and this one with
 
 ``` r
-pak::pak(c("eliocamp/rhelpi18n", "eliocamp/ri18n-dummy.es"))
+pak::pak(c("eliocamp/rhelpi18n", "eliocamp/base.es"))
 ```
 
 Loading rhelpi18n will modify the internal R function that retrieves help pages to enable translation.
