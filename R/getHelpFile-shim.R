@@ -68,8 +68,6 @@ get_translation_modules <- function(packages, language) {
 ## i.e.: if target_language is "es_AR", then "es" is good, but "es_AR" is better.
 ## if target language is "es", then "es_AR" is also good.
 ## Issue: https://github.com/eliocamp/rhelpi18n/issues/9
-languages <- c("es_Ar", "es", "en")
-target_language <- "es"
 resolve_lang <- function(languages, target_language) {
   exact_match <- languages == target_language
 
