@@ -11,7 +11,7 @@
 #' @param path Path where the module will be created.
 #' @param rstudio_project Logical indicating wether to create an .Rproj file.
 #'
-#'
+#' @export
 i18n_translation_start <- function(module_name, package_path, language, path,
                                    rstudio_project = TRUE) {
   if (!valid_package_name(module_name)) {
