@@ -1,6 +1,6 @@
 #' Creates templates for translation
 #'
-#' Grabs .Rd files and creates yaml templates to then translate
+#' Grabs .Rd files and creates yaml templates to then translate.
 #'
 #' @param rd_files character vector of rd files.
 #' @param folder folder where to save the templates. Will be created if it
@@ -30,6 +30,7 @@ i18n_translation_templates <- function(rd_files, folder) {
 i18n_translation_template <- function(rd_file, template_file) {
   rd_parsed <- tools::parse_Rd(rd_file)
   rd_flatten <- rd_flatten(rd_parsed)
-  rd_flat_to_yaml(rd_flatten, template_file)
+  rd_flat_write(rd_flatten, template_file)
   template_file
 }
+

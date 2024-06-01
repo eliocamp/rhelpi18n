@@ -5,7 +5,7 @@
 \title{Creates a translation module}
 \usage{
 i18n_module_create(
-  module_name,
+  module_name = NULL,
   package_path,
   language,
   path,
@@ -14,7 +14,7 @@ i18n_module_create(
 }
 \arguments{
 \item{module_name}{Name of the translation module. It needs to be a valid
-package name.}
+package name. If missing, it will be created as the name of the package.language.}
 
 \item{package_path}{Path to the package that will be translated.}
 
@@ -22,7 +22,7 @@ package name.}
 
 \item{path}{Path where the module will be created.}
 
-\item{rstudio_project}{Logical indicating wether to create an .Rproj file.}
+\item{rstudio_project}{Logical indicating whether to create an .Rproj file.}
 }
 \description{
 Creates a translation module skeleton form a source package with the

@@ -1,3 +1,4 @@
+# Assigns a new symbol to a locked binding.
 # From: https://github.com/coolbutuseless/grrr/blob/937033dad84c1357f3f185b99606efdc450b67d5/R/core.R
 sudo_assignInNamespace <- function (x, value, ns, pos = -1, envir = as.environment(pos))  {
   nf <- sys.nframe()

@@ -1,3 +1,14 @@
+#' Pretty printing for flattened Rd files
+#'
+#' @param x an flattened rd object.
+#' @param ... ignored.
+#'
+#' @export
+print.Rd_flat <- function(x, ...){
+  title <- deparse(substitute(x))
+  cat(list2char(x, title, n = 1))
+}
+
 
 list2char <- function(x, title = NULL, n = 1) {
 
@@ -13,7 +24,7 @@ list2char <- function(x, title = NULL, n = 1) {
     x <- gsub("\\n", "\\\\n", x)
     return(paste0("$", title, ": ", '"', x, '"'))
   }
-  sep <- paste0("\n", strrep("  ", n), "└─")
+  sep <- paste0("\n", strrep("  ", n), "\\u2514\\u2500")
   elements <- vapply(seq_along(x), function(i) paste0(sep, "[", i, "]", list2char(x[[i]],
                                                                                   title = names(x)[i],
                                                                                   n = n + 2)),
@@ -25,10 +36,4 @@ list2char <- function(x, title = NULL, n = 1) {
 
 
   return(out)
-}
-
-#' @export
-print.Rd_flat <- function(x, ...){
-  title <- deparse(substitute(x))
-  cat(list2char(x, title, n = 1))
 }

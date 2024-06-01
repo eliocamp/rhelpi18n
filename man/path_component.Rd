@@ -2,7 +2,7 @@
 % Please edit documentation in R/path-component.R
 \name{path_component}
 \alias{path_component}
-\title{Extract componet of a path}
+\title{Extract component of a path}
 \usage{
 path_component(path, depth = 0)
 }
@@ -13,5 +13,17 @@ path_component(path, depth = 0)
 0 means the last component, 1 means its parent and so on.}
 }
 \description{
-Extract componet of a path
+Extract component of a path
 }
+\details{
+This was used in a previous implementation of the package and left here just
+in case. Probably can delete, but since it's not exported and is a simple
+function, it doesn't hurt.
+}
+\examples{
+\dontrun{
+path_component("/home/user/Documents/file.txt")
+path_component("/home/user/Documents/file.txt", depth = 2)
+}
+}
+\keyword{internal}

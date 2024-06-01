@@ -1,42 +1,25 @@
-#' Read a translated file
+#' Translates an Rd object
 #'
-#' Reads a yaml file with translations into a list. This list will then be used
-#' to translate the strings at runtime.
+#' Takes an object returned by `[tools::parse_Rd]` and `utils::.getHelpfile()`
+#' and translates the strings.
 #'
-#' @param file Yaml file with translations
+#' @param Rd Rd object
+#' @param translation a flattened rd object returned by `[rd_flatten]` or,
+#' more likely, by `[rd_flat_read]`.
 #'
-#' @export
-rd_flat_read <- function(file) {
-  rd_flat <- yaml::read_yaml(file)
-  attr(rd_flat, "untranslatable") <- rd_flat[["untranslatable"]]
-  rd_flat[["untranslatable"]] <- NULL
-  class(rd_flat) <- "Rd_flat"
-  rd_flat
+#' @returns an Rd object with translated strings.
+#' @keywords internal
+rd_translate <- function(Rd, translation) {
+  untranslatable <- attr(translation, "untranslatable")
+  Rd <- rd_flatten(Rd)
+
+  translation <- translation[!(names(translation) %in% untranslatable)]
+
+  translated <- translate(Rd, translation)
+
+  rd_unflatten(translated)
 }
 
-
-section2char <- function(x) {
-  if (is.character(x)) {
-    return(x)
-  }
-
-  paste(paste0("\\item{", names(x), "}{", unlist(x), "}"),
-        collapse = "\n")
-}
-
-list2rdtext <- function(x) {
-  texts <- vapply(x, section2char, FUN.VALUE = character(1))
-
-  paste(paste0("\\", names(x), "{", texts, "}"),
-        collapse = "\n")
-}
-
-rd_unflatten <- function(rd_flat) {
-  text <- list2rdtext(rd_flat)
-  file <- tempfile()
-  writeLines(text, file)
-  tools::parse_Rd(file)
-}
 
 
 translate <- function(original, translation) {

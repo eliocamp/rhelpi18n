@@ -9,9 +9,13 @@
     stop(gettextf("package %s exists but was not installed under R >= 2.10.0 so help cannot be accessed", sQuote(pkgname)), domain = NA)
 
   rd <- tools:::fetchRdDB(RdDB, basename(file))
+
+  ## Magic begins here
+
   if (is.null(language)) {
     return(rd)
   }
+
   name <- basename(file)
   translation_modules <- get_translation_modules(pkgname, language = language)
   if (length(translation_modules) == 0) {
@@ -27,58 +31,4 @@
   rd <- rd_translate(rd, translations)
 
   return(rd)
-}
-
-rd_translate <- function(Rd, translation) {
-  untranslatable <- attr(translation, "untranslatable")
-  Rd <- rd_flatten(Rd)
-
-  translation <- translation[!(names(translation) %in% untranslatable)]
-
-  translated <- translate(Rd, translation)
-
-  rd_unflatten(translated)
-}
-
-
-get_translation_modules <- function(packages, language) {
-  stopifnot(!missing(packages))
-  stopifnot(length(language) == 1)   # TODO: eventually relax this
-
-  # Get all translation modules
-  installed <- utils::installed.packages(fields = c("Translates", "Language"))
-  translations <- installed[!is.na(installed[, "Translates"]), , drop = FALSE]
-
-  # Filter for the language
-  translations <- translations[resolve_lang(translations[, "Language"], language), , drop = FALSE]
-
-  # Filter for the package
-  modules <- character(0)
-  for (i in seq_len(nrow(translations))) {
-    translates <- pkgload::parse_deps(translations[i, "Translates"])[["name"]]
-    if (translates %in% packages) {
-      modules <- c(modules, translations[i, "Package"])
-    }
-  }
-
-  return(modules)
-}
-
-## TODO: needs to take into account the ISO hierarchy.
-## i.e.: if target_language is "es_AR", then "es" is good, but "es_AR" is better.
-## if target language is "es", then "es_AR" is also good.
-## Issue: https://github.com/eliocamp/rhelpi18n/issues/9
-resolve_lang <- function(languages, target_language) {
-  exact_match <- languages == target_language
-
-  if (any(exact_match)) {
-    return(exact_match)
-  }
-
-  # Keep only the top-level language specification ("en" in "en_US")
-  # for both available and target languages
-  languages <- vapply(strsplit(languages, "_"), function(x) x[[1]], character(1))
-  target_language <- strsplit(target_language, "_")[[1]]
-
-  languages == target_language
 }

@@ -1,3 +1,15 @@
+#' Reformats the Rd structure
+#'
+#' The Rd structure returned by `tools::parse_Rd` and `utils::.getHelpfile()`
+#' can to nested and is not ideal for translation. `rd_flatten` "flattens"
+#' that structure into a simpler list and `rd_unflatten` goes back to the original
+#' structure.
+#'
+#' @param Rd a parsed Rd file returned by `tools::parse_Rd` or
+#' `utils::.getHelpfile()`.
+#' @param untranslatable character vector of fields that should not be translated.
+#'
+#' @keywords internal
 rd_flatten <- function(Rd,
                        untranslatable = c(
                          "alias",
@@ -13,24 +25,11 @@ rd_flatten <- function(Rd,
   list <- Filter(function(x) !is.null(x), list)
   attr(list, "untranslatable") <- untranslatable
 
-  class(list) <- "Rd_flat"
+  class(list) <- rd_flat_class
   list
 }
 
-rd_flat_to_yaml <- function(rd_flat, file) {
-  untranslatable <- attr(rd_flat, "untranslatable")
-
-  rd_flat <- rd_flat[!(names(rd_flat) %in% untranslatable)]
-  rd_flat[["untranslatable"]] <- untranslatable
-  yaml::write_yaml(rd_flat, file)
-}
-
-
-remove_newlines <- function(x) {
-  x <- gsub("^\\n", "", x)
-  x
-}
-
+rd_flat_class <- "rhelpi18n_rd_flat"
 
 make_text <- function(x, untranslatable) {
   tag <- attr(x, "Rd_tag")
@@ -45,8 +44,7 @@ make_text <- function(x, untranslatable) {
 
   if (tag != "\\arguments") {
     text <- vapply(x, to_text, FUN.VALUE = character(1))
-    text <- paste(text, collapse = "") |>
-      remove_newlines()
+    text <- remove_newlines(paste(text, collapse = ""))
     if (tag %in% paste0("\\", untranslatable)) {
       return(text)
     }
@@ -70,6 +68,12 @@ make_text <- function(x, untranslatable) {
   names <- vapply(text, function(x) attr(x, "name"), FUN.VALUE = character(1))
   names(text) <- names
   return(text)
+}
+
+
+
+remove_newlines <- function(x) {
+  gsub("^\\n", "", x)
 }
 
 
