@@ -19,6 +19,15 @@
 ## Issue: https://github.com/eliocamp/rhelpi18n/issues/9
 #' @keywords internal
 resolve_lang <- function(languages, target_language) {
+
+  # Apparently sometimes LANGUAGE has many languages divided by : (for example,
+  # mine says "en_AU:en"). Just keep the first one.
+  target_language <- strsplit(target_language, ":")[[1]][[1]]
+  languages <- vapply(strsplit(languages, split = ":"),
+                      FUN = function(x) x[[1]],
+                      FUN.VALUE = character(1))
+
+
   exact_match <- languages == target_language
 
   if (any(exact_match)) {
@@ -28,7 +37,7 @@ resolve_lang <- function(languages, target_language) {
   # Keep only the top-level language specification ("en" in "en_US")
   # for both available and target languages
   languages <- vapply(strsplit(languages, "_"), function(x) x[[1]], character(1))
-  target_language <- strsplit(target_language, "_")[[1]]
+  target_language <- strsplit(target_language, "_")[[1]][[1]]
 
   languages == target_language
 }

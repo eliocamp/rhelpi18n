@@ -16,8 +16,16 @@ get_translation_modules <- function(package, language) {
 
   translations <- installed[!is.na(installed[, "Translates"]), , drop = FALSE]
 
+  if (length(translations) == 0) {
+    return(NULL)
+  }
+
   # Filter for the language
   translations <- translations[resolve_lang(translations[, "Language"], language), , drop = FALSE]
+
+  if (length(translations) == 0) {
+    return(NULL)
+  }
 
   # Filter for the package
   modules <- character(0)
