@@ -63,6 +63,7 @@ write_string <- function(strings, context = NULL) {
   # Base case.
   # Write the context, msgid and msgstr
   if (is.character(strings)) {
+    strings <- gsub("\n", "\"\n\"", strings, perl = TRUE)
     return(paste0(c(paste0("msgctxt \"", context, "\""),
                     paste0("msgid \"", strings, "\""),
                     "msgstr \"\""),
