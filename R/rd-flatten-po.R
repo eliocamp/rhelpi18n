@@ -71,7 +71,7 @@ write_string <- function(strings, context = NULL) {
   }
 
   # Else, write each element, adding the context
-  context <- unname(vapply(names(strings), function(x) paste0(c(context, x), collapse = "."),
+  context <- unname(vapply(names(strings), function(x) paste0(c(context, x), collapse = " "),
                            FUN.VALUE = character(1)))
 
 
