@@ -1,7 +1,7 @@
-#' @exaples
+#' @examples
 #' utils:::.getHelpFile(help("mean")) |>
 #'   rd_flatten_po() |>
-#'   write_string() |>
+#'   write_string(context = "mean") |>
 #'   writeLines("text.pot")
 rd_flatten_po <- function(Rd,
                        untranslatable = c(

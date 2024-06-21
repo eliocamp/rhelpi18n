@@ -8,11 +8,11 @@
 #'
 #' @examples
 #' rd_files <- system.file("extdata", "periodic.Rd", package = "rhelpi18n")
-#' template_folder <- tempdir()
-#' i18n_translation_templates(rd_files, template_folder)
+#' po_file <- tempfile()
+#' i18n_translation_templates(rd_files, po_file)
 #'
 #' @export
-i18n_translation_templates <- function(rd_files, folder) {
+i18n_translation_templates <- function(rd_files, po_file) {
   invalid_files <- !file.exists(rd_files)
 
   if (any(invalid_files)) {
@@ -21,16 +21,16 @@ i18n_translation_templates <- function(rd_files, folder) {
 
   dir.create(folder, showWarnings = FALSE, recursive = TRUE)
 
-  base_names <- tools::file_path_sans_ext(basename(rd_files))
-  template_files <- file.path(folder, paste0(base_names, ".yaml"))
+  pos <- vapply(rd_files, i18n_translation_template, FUN.VALUE = character(1))
 
-  mapply(i18n_translation_template, rd_files,  template_files)
+  writeLines(pos, po_file, sep = "\n \n")
 }
 
-i18n_translation_template <- function(rd_file, template_file) {
+i18n_translation_template <- function(rd_file) {
+  context <- tools::file_path_sans_ext(basename(rd_file))
   rd_parsed <- tools::parse_Rd(rd_file)
-  rd_flatten <- rd_flatten(rd_parsed)
-  rd_flat_write(rd_flatten, template_file)
-  template_file
+  rd_flatten <- rd_flatten_po(rd_parsed)
+
+  write_string(rd_flatten, context)
 }
 

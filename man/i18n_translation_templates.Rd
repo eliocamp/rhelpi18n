@@ -4,7 +4,7 @@
 \alias{i18n_translation_templates}
 \title{Creates templates for translation}
 \usage{
-i18n_translation_templates(rd_files, folder)
+i18n_translation_templates(rd_files, po_file)
 }
 \arguments{
 \item{rd_files}{character vector of rd files.}
@@ -17,7 +17,7 @@ Grabs .Rd files and creates yaml templates to then translate.
 }
 \examples{
 rd_files <- system.file("extdata", "periodic.Rd", package = "rhelpi18n")
-template_folder <- tempdir()
-i18n_translation_templates(rd_files, template_folder)
+po_file <- tempfile()
+i18n_translation_templates(rd_files, po_file)
 
 }

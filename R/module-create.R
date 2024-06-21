@@ -41,7 +41,7 @@ i18n_module_create <- function(module_name = NULL, package_path, language, path,
 
   rd_files <- list.files(file.path(package_path, "man"), pattern = "*.Rd", full.names = TRUE)
 
-  i18n_translation_templates(rd_files, file.path(module_path, "translations"))
+  i18n_translation_templates(rd_files, file.path(module_path, "po", paste0("R-", module_name, ".pot")))
 
   for (file in rd_files) {
     file.copy(file, file.path(module_path, "man_original", basename(file)))
