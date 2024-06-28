@@ -14,9 +14,8 @@
 #' @export
 i18n_module_create <- function(module_name = NULL,
                                language,
-                               package_path,
-                               package_url = NULL,
                                module_path = file.path(".", module_name),
+                               package_path,
                                rstudio_project = TRUE) {
   package <- get_package_name(package_path)
   version <- get_package_version(package_path)
