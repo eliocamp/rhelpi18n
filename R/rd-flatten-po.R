@@ -1,4 +1,4 @@
-#' @exaples
+#' @examples
 #' utils:::.getHelpFile(help("mean")) |>
 #'   rd_flatten_po() |>
 #'   write_string() |>
