@@ -8,13 +8,16 @@
 #' package name. If missing, it will be created as the name of the package.language.
 #' @param package_path Path to the package that will be translated.
 #' @param language Language of the translation module
-#' @param path Path where the module will be created.
+#' @param module_path Path where the module will be created.
 #' @param rstudio_project Logical indicating whether to create an .Rproj file.
 #'
 #' @export
-i18n_module_create <- function(module_name = NULL, package_path, language, path,
-                                   rstudio_project = TRUE) {
-
+i18n_module_create <- function(module_name = NULL,
+                               language,
+                               package_path,
+                               package_url = NULL,
+                               module_path = file.path(".", module_name),
+                               rstudio_project = TRUE) {
   package <- get_package_name(package_path)
   version <- get_package_version(package_path)
 
@@ -25,8 +28,6 @@ i18n_module_create <- function(module_name = NULL, package_path, language, path,
   if (!valid_package_name(module_name)) {
     stop(module_name, " is not a valid package name")
   }
-
-  module_path <- file.path(path, module_name)
 
   if (rstudio_project) {
     rstudio_project <- module_name
