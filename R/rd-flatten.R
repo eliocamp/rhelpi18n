@@ -20,22 +20,32 @@ rd_flatten <- function(Rd,
                        )) {
   # Convert every top-level element to text.
   list <- lapply(Rd, make_text, untranslatable = untranslatable)
-
-  names(list) <- rd_tags(Rd)
   list <- Filter(function(x) !is.null(x), list)
-  attr(list, "untranslatable") <- untranslatable
+  names(list) <- rd_tags(list)
+
+  list <- list[!(names(list) %in% c("COMMENT", "TEXT"))]
+  attr(list, "untranslatable") <- c(untranslatable)
 
   class(list) <- rd_flat_class
   list
+}
+
+rd_remove_untranslatable <- function(rd_flat) {
+  untranslatable <- attr(rd_flat, "untranslatable")
+
+  rd_flat[!(names(rd_flat) %in% untranslatable)]
 }
 
 rd_flat_class <- "rhelpi18n_rd_flat"
 
 make_text <- function(x, untranslatable) {
   tag <- attr(x, "Rd_tag")
-  not_save <- c("COMMENT", "TEXT")
+  not_save <- c("COMMENT", "TEXT", paste0("\\", untranslatable))
   if (tag %in% not_save) {
-    return(NULL)
+    text <- vapply(x, to_text, FUN.VALUE = character(1))
+    text <- remove_newlines(paste(text, collapse = ""))
+    attr(text, "Rd_tag") <- tag
+    return(text)
   }
 
   ## Here I treat the arguments section differently.
@@ -43,14 +53,20 @@ make_text <- function(x, untranslatable) {
   ## elements
 
   if (tag != "\\arguments") {
-    text <- vapply(x, to_text, FUN.VALUE = character(1))
-    text <- remove_newlines(paste(text, collapse = ""))
-    if (tag %in% paste0("\\", untranslatable)) {
-      return(text)
+    if (tag == "\\section") {
+      text <- vapply(x[[-1]], to_text, FUN.VALUE = character(1))
+      tag <- paste0(tag, "{", to_text(x[[1]]), "}")
+    } else {
+      text <- vapply(x, to_text, FUN.VALUE = character(1))
     }
-    return(list(original = text,
-                translation = NULL))
+    text <- remove_newlines(paste(text, collapse = ""))
+    list <- list(original = text,
+                 translation = NULL)
+
+    attr(list, "Rd_tag") <- tag
+    return(list)
   }
+
   text <- lapply(x, function(y) {
     tag <- attr(y, "Rd_tag")
 
@@ -67,13 +83,14 @@ make_text <- function(x, untranslatable) {
 
   names <- vapply(text, function(x) attr(x, "name"), FUN.VALUE = character(1))
   names(text) <- names
+  attr(text, "Rd_tag") <- tag
   return(text)
 }
 
 
 
 remove_newlines <- function(x) {
-  gsub("^\\n", "", x)
+  gsub("^\\n*", "", x)
 }
 
 
@@ -86,19 +103,23 @@ remove_newlines <- function(x) {
 to_text <- function(x) {
   tag <- attr(x, "Rd_tag")
 
-  if (is.character(x) ||  !is.null(tag) && !startsWith(tag, "\\")) {
+
+  if (is.character(x) || !is.null(tag) && !startsWith(tag, "\\")) {
     return(x[[1]])
   }
 
   inner <- vapply(x, to_text, FUN.VALUE = character(1))
-
+  # browser(expr = tag == "\\itemize")
   if (!is.null(tag)) {
-
     option <- attr(x, "Rd_option")
     if (!is.null(option)) {
       option <- paste0("[", option, "]")
     }
-    inner <- paste(inner, collapse = "}{")
+    if (length(inner) == 0) {
+      return(paste(tag, option))
+    }
+
+    inner <- paste(inner, collapse = "")
     return(paste0(tag, option, "{", inner, "}"))
   }
 

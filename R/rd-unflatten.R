@@ -3,7 +3,7 @@
 #' @keywords internal
 rd_unflatten <- function(rd_flat) {
   text <- list2rdtext(rd_flat)
-  file <- tempfile()
+  file <- tempfile(fileext = ".rd")
   writeLines(text, file)
   tools::parse_Rd(file)
 }

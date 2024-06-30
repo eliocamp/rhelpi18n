@@ -10,10 +10,7 @@
 #' @returns an Rd object with translated strings.
 #' @keywords internal
 rd_translate <- function(Rd, translation) {
-  untranslatable <- attr(translation, "untranslatable")
   Rd <- rd_flatten(Rd)
-
-  translation <- translation[!(names(translation) %in% untranslatable)]
 
   translated <- translate(Rd, translation)
 
