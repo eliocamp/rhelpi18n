@@ -51,7 +51,6 @@ make_text <- function(x, untranslatable) {
   ## Here I treat the arguments section differently.
   ## Maybe a better way would be to correctly parse \item{}{}
   ## elements
-
   if (tag != "\\arguments") {
     if (tag == "\\section") {
       text <- vapply(x[[-1]], to_text, FUN.VALUE = character(1))
@@ -87,47 +86,25 @@ make_text <- function(x, untranslatable) {
   return(text)
 }
 
-
-
 remove_newlines <- function(x) {
   gsub("^\\n*", "", x)
 }
 
-
-
-## Creates text, including tags and options to each section.
-## Should be applied to:
-## 1. each section
-## 2. each argument name
-## 3. each description
 to_text <- function(x) {
   tag <- attr(x, "Rd_tag")
-
-
   if (is.character(x) || !is.null(tag) && !startsWith(tag, "\\")) {
     return(x[[1]])
   }
-
-  inner <- vapply(x, to_text, FUN.VALUE = character(1))
-  # browser(expr = tag == "\\itemize")
-  if (!is.null(tag)) {
-    option <- attr(x, "Rd_option")
-    if (!is.null(option)) {
-      option <- paste0("[", option, "]")
-    }
-    if (length(inner) == 0) {
-      return(paste(tag, option))
-    }
-
-    inner <- paste(inner, collapse = "")
-    return(paste0(tag, option, "{", inner, "}"))
-  }
-
-  inner <- paste(inner, collapse = "")
-  return(inner)
+  text <- as.character(setRd(x), deparse = TRUE)
+  paste(text, collapse = "")
 }
 
 rd_tags <- function(help_db) {
   tags <- vapply(help_db, function(x) attr(x, "Rd_tag"), FUN.VALUE = character(1))
   gsub("\\\\", "", tags)
+}
+
+setRd <- function(x) {
+  class(x) <- "Rd"
+  x
 }

@@ -22,5 +22,5 @@ section2char <- function(x) {
   }
 
   paste(paste0("\\item{", names(x), "}{", unlist(x), "}"),
-        collapse = "\n")
+         collapse = "")
 }
