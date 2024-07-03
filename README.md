@@ -33,7 +33,10 @@ Sys.setenv(LANGUAGE = "es")
 
 Now `base::mean()`'s help page will be displayed in Spanish.
 
-https://github.com/eliocamp/rhelpi18n/assets/8617595/be3038dd-ac53-4fa7-a0bf-51a5de9a91bf
+
+<video style="max-height:640px; min-height: 200px" controls>
+  <source src="https://github.com/eliocamp/rhelpi18n/assets/8617595/be3038dd-ac53-4fa7-a0bf-51a5de9a91bf" type="video/mp4">
+</video>
 
 This will work with the HTML documentation displayed by R GUIs like RStudio, as well as with text documentation displayed by R in the console. 
 
