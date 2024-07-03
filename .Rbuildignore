@@ -4,3 +4,7 @@
 ^notes$
 inst/extdata/translation_skeleton/
 images
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
+^\.github$
