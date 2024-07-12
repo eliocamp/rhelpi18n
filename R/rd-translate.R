@@ -28,7 +28,16 @@ translate <- function(original, translation) {
       translation_exists <- !is.null(translation[[section]]$translation)
 
       if (version_matches && translation_exists) {
-        original[[section]] <- translation[[section]]$translation
+        if (section %in% c("examples", "title")) {
+          original[[section]] <- paste0(
+            translation[[section]]$translation,
+            "\\if{html}{\\out{<details style='display:inline'> <summary>} 🌐 \\out{</summary>} ",
+            original[[section]]$original,
+            "\\out{</details>}}")
+        } else {
+          original[[section]] <- translation[[section]]$translation
+        }
+
       } else {
         # If the translation is out of date?
         # For now, keep the original
