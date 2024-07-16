@@ -40,10 +40,15 @@ Now `base::mean()`'s help page will be displayed in Spanish.
 
 This will work with the HTML documentation displayed by R GUIs like RStudio, as well as with text documentation displayed by R in the console. 
 
-## For developers
+## For package developers
 
 First get a copy of the package you want to translate. 
-Then use `rhelpi18n::i18n_module_create()` to create a translation module for that package
+
+Choose your translation **language** by its [ISO 2-letter code](https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes) eventually with a regional option using underscore:
+
+or example Spanish would be `language = "es"`, and Argentine Spanish would be `language = "es_AR"`.
+
+Then use `rhelpi18n::i18n_module_create()` to create a **lang** translation **module** for that **package**
 
 
 ```r
@@ -53,19 +58,32 @@ rhelpi18n::i18n_module_create(module_name = "package.lang",
                               package_path = "path/to/package")
 ```
 
-The translation string are saved as yaml files in "path/to/module/translations" with this format:
+The translation string are saved into yaml files, one per Rd file of the original package.
+
+You can find them in "path/to/module/translations" with this format:
 
 ```yaml
 title:
   original: Title in the original language
   translation: ~
 ```
+You can distribute them to your package translators.
 
-add your translation to the `translation` field. 
+After translation, replace the completed yaml files in the same folder.
+
 Build the package and test. 
 
 That's it.
 
+## For package translators
+
+In the received yaml files, replace the `~` in each `translation` field by the translation of the `original` field, like in the exemple: 
+
+```yaml
+title:
+  original: Title in the original language
+  translation: Título en la lengua original
+```
 
 **Problems**
 
