@@ -68,20 +68,34 @@
 <video style="max-height:640px; min-height: 200px" controls><source src="https://github.com/eliocamp/rhelpi18n/assets/8617595/be3038dd-ac53-4fa7-a0bf-51a5de9a91bf" type="video/mp4" srcset="NA"></source></video><p>This will work with the HTML documentation displayed by R GUIs like RStudio, as well as with text documentation displayed by R in the console.</p>
 </div>
 <div class="section level2">
-<h2 id="for-developers">For developers<a class="anchor" aria-label="anchor" href="#for-developers"></a>
+<h2 id="for-package-developers">For package developers<a class="anchor" aria-label="anchor" href="#for-package-developers"></a>
 </h2>
-<p>First get a copy of the package you want to translate. Then use <code><a href="reference/i18n_module_create.html">rhelpi18n::i18n_module_create()</a></code> to create a translation module for that package</p>
+<p>First get a copy of the package you want to translate.</p>
+<p>Choose your translation <strong>language</strong> by its <a href="https://en.wikipedia.org/wiki/List_of_ISO_639_language_codes" class="external-link">ISO 2-letter code</a> eventually with a regional option using underscore:</p>
+<p>or example Spanish would be <code>language = "es"</code>, and Argentine Spanish would be <code>language = "es_AR"</code>.</p>
+<p>Then use <code><a href="reference/i18n_module_create.html">rhelpi18n::i18n_module_create()</a></code> to create a <strong>lang</strong> translation <strong>module</strong> for that <strong>package</strong></p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">rhelpi18n</span><span class="fu">::</span><span class="fu"><a href="reference/i18n_module_create.html">i18n_module_create</a></span><span class="op">(</span>module_name <span class="op">=</span> <span class="st">"package.lang"</span>, </span>
 <span>                              language <span class="op">=</span> <span class="st">"lang"</span>, </span>
 <span>                              module_path <span class="op">=</span> <span class="st">"path/to/module"</span>, </span>
 <span>                              package_path <span class="op">=</span> <span class="st">"path/to/package"</span><span class="op">)</span></span></code></pre></div>
-<p>The translation string are saved as yaml files in “path/to/module/translations” with this format:</p>
+<p>The translation string are saved into yaml files, one per Rd file of the original package.</p>
+<p>You can find them in “path/to/module/translations” with this format:</p>
 <div class="sourceCode" id="cb5"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb5-1"><a href="#cb5-1" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span></span>
 <span id="cb5-2"><a href="#cb5-2" tabindex="-1"></a><span class="at">  </span><span class="fu">original</span><span class="kw">:</span><span class="at"> Title in the original language</span></span>
 <span id="cb5-3"><a href="#cb5-3" tabindex="-1"></a><span class="at">  </span><span class="fu">translation</span><span class="kw">:</span><span class="at"> </span><span class="ch">~</span></span></code></pre></div>
-<p>add your translation to the <code>translation</code> field. Build the package and test.</p>
+<p>You can distribute them to your package translators.</p>
+<p>After translation, replace the completed yaml files in the same folder.</p>
+<p>Build the package and test.</p>
 <p>That’s it.</p>
+</div>
+<div class="section level2">
+<h2 id="for-package-translators">For package translators<a class="anchor" aria-label="anchor" href="#for-package-translators"></a>
+</h2>
+<p>In the received yaml files, replace the <code>~</code> in each <code>translation</code> field by the translation of the <code>original</code> field, like in the exemple:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode yaml"><code class="sourceCode yaml"><span id="cb6-1"><a href="#cb6-1" tabindex="-1"></a><span class="fu">title</span><span class="kw">:</span></span>
+<span id="cb6-2"><a href="#cb6-2" tabindex="-1"></a><span class="at">  </span><span class="fu">original</span><span class="kw">:</span><span class="at"> Title in the original language</span></span>
+<span id="cb6-3"><a href="#cb6-3" tabindex="-1"></a><span class="at">  </span><span class="fu">translation</span><span class="kw">:</span><span class="at"> Título en la lengua original</span></span></code></pre></div>
 <p><strong>Problems</strong></p>
 <ol style="list-style-type: decimal">
 <li>It’s not clear that the page is a translation and not the “official” one.</li>
