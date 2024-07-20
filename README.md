@@ -11,6 +11,7 @@ More [in this issue](https://github.com/r-devel/r-project-sprint-2023/issues/35)
 
 ## For users
 
+
 Install this package:
 
 ``` r
@@ -24,7 +25,9 @@ The [base.es](https://github.com/eliocamp/base.es) package hosts translations fo
 pak::pak("eliocamp/base.es")
 ```
 
-Setting the LANGAUGE environmental variable to "es" will change your R language. 
+### Initial experiment
+
+Setting the LANGUAGE environmental variable to "es" will change your R language. 
 
 ```r
 library(rhelpi18n)
@@ -33,6 +36,21 @@ Sys.setenv(LANGUAGE = "es")
 
 Now `base::mean()`'s help page will be displayed in Spanish.
 
+It will be the case for each and every packages if you have installed the relevant translation.
+
+### Make it permanent 
+
+If you love it, you don't want to remember to load the package name at every restart, 
+so you can make it permanent through
+```r
+usethis::edit_r_profile()
+```
+and add the following line in your Rprofile (Work in progress)
+```r
+# added for {rhelp18n} to use local LANGUAGE for R help and and packages help
+# library(rhelp18n)
+
+```
 
 <video style="max-height:640px; min-height: 200px" controls>
   <source src="https://github.com/eliocamp/rhelpi18n/assets/8617595/be3038dd-ac53-4fa7-a0bf-51a5de9a91bf" type="video/mp4">
@@ -77,7 +95,7 @@ That's it.
 
 ## For package translators
 
-In the received yaml files, replace the `~` in each `translation` field by the translation of the `original` field, like in the exemple: 
+In the received yaml files, replace the `~` in each `translation` field by the translation of the `original` field, like in the example: 
 
 ```yaml
 title:
