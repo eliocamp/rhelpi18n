@@ -19,7 +19,7 @@ i18n_translation_templates <- function(rd_files, po_file) {
     stop("Some files don't exist")
   }
 
-  dir.create(folder, showWarnings = FALSE, recursive = TRUE)
+  dir.create(dirname(po_file), showWarnings = FALSE, recursive = TRUE)
 
   pos <- vapply(rd_files, i18n_translation_template, FUN.VALUE = character(1))
 
@@ -30,7 +30,6 @@ i18n_translation_template <- function(rd_file) {
   context <- tools::file_path_sans_ext(basename(rd_file))
   rd_parsed <- tools::parse_Rd(rd_file)
   rd_flatten <- rd_flatten_po(rd_parsed)
-
   write_string(rd_flatten, context)
 }
 
