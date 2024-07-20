@@ -2,22 +2,22 @@
 % Please edit documentation in R/translation-templates.R
 \name{i18n_translation_templates}
 \alias{i18n_translation_templates}
-\title{Creates templates for translation}
+\title{Creates a po templates for translation}
 \usage{
-i18n_translation_templates(rd_files, po_file)
+i18n_translation_templates(rd_files, pot_file)
 }
 \arguments{
 \item{rd_files}{character vector of rd files.}
 
-\item{folder}{folder where to save the templates. Will be created if it
-doesn't exist.}
+\item{pot_file}{full path of the PO template file to create. dirname of the
+\code{pot_file} will be created if needed.}
 }
 \description{
-Grabs .Rd files and creates yaml templates to then translate.
+Grabs .Rd files and creates a .pot file ready to translate.
 }
 \examples{
 rd_files <- system.file("extdata", "periodic.Rd", package = "rhelpi18n")
-po_file <- tempfile()
-i18n_translation_templates(rd_files, po_file)
+pot_file <- tempfile()
+i18n_translation_templates(rd_files, pot_file)
 
 }

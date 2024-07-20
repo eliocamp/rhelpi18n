@@ -1,4 +1,6 @@
-#' create a .po file out of a Rd help topic
+#' create a .pot file out from a single Rd help topic
+#'
+#' Grabs the `topic.Rd` file and creates a `/po/topic.pot` file ready to translate.
 #'
 #' @param topic the .Rd help topic
 #'
@@ -7,6 +9,7 @@
 #' @export
 #' @examples
 #'  po_extract_topic("verbatim_logical", "yaml")
+#'
 po_extract_topic <- function(topic, package) {
   stopifnot("`package` is mandatory, with no default" = !is.na(package))
   # create po/ folder if not exists

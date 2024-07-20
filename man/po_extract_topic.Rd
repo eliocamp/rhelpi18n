@@ -2,7 +2,7 @@
 % Please edit documentation in R/po_extract_topic.R
 \name{po_extract_topic}
 \alias{po_extract_topic}
-\title{create a .po file out of a Rd help topic}
+\title{create a .pot file out from a single Rd help topic}
 \usage{
 po_extract_topic(topic, package)
 }
@@ -12,8 +12,9 @@ po_extract_topic(topic, package)
 \item{package}{the package to find the Rd file in}
 }
 \description{
-create a .po file out of a Rd help topic
+Grabs the \code{topic.Rd} file and creates a \verb{/po/topic.pot} file ready to translate.
 }
 \examples{
  po_extract_topic("verbatim_logical", "yaml")
+
 }
