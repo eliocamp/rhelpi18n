@@ -76,18 +76,13 @@ rhelpi18n::i18n_module_create(module_name = "package.lang",
                               package_path = "path/to/package")
 ```
 
-The translation string are saved into yaml files, one per Rd file of the original package.
+The package help strings to translate are saved into `/po` folder of the new {package.lang} module.
 
-You can find them in "path/to/module/translations" with this format:
+You can find them in a aggregated `.pot` file that compatible with most translation tools.
 
-```yaml
-title:
-  original: Title in the original language
-  translation: ~
-```
-You can distribute them to your package translators.
+You can now distribute it to your package translators.
 
-After translation, replace the completed yaml files in the same folder.
+After translation, get back the compiled `.mo` file and save it in the {package.lang} `/inst/po/<lang>/__TBD__` direcotry.
 
 Build the package and test. 
 
@@ -95,17 +90,19 @@ That's it.
 
 ## For package translators
 
-In the received yaml files, replace the `~` in each `translation` field by the translation of the `original` field, like in the example: 
+Use your preferred translation tool, like Poedit to open the `.pot` file, 
+and create a new translation in the desired language.
 
-```yaml
-title:
-  original: Title in the original language
-  translation: Título en la lengua original
-```
+Translate all the lines and save the translation `.po` file. If available within the translation tool,
+compile your translation into a `.mo` file, and send it back to 
+the package translator.
 
 **Problems**
 
 1. It's not clear that the page is a translation and not the "official" one. 
 2. It's not possible to access the original documentation without changing the LANGUAGE environmental variable and opening the help page again. 
 3. There are some formatting issues, such as the `...` argument name. 
+4. What to do with the `.mo` file ? 
+  - locate it in {package.lang} `/inst/po/<lang>/` ?
+  - how could gettext be hit when calling `help()` ?
 
