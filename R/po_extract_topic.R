@@ -1,3 +1,31 @@
+#' create a .po file out of a Rd help topic
+#'
+#' @param topic the .Rd help topic
+#'
+#' @param package the package to find the Rd file in
+#'
+#' @export
+#' @examples
+#'  po_extract_topic("verbatim_logical", "yaml")
+po_extract_topic <- function(topic, package) {
+  stopifnot("`package` is mandatory, with no default" = !is.na(package))
+  # create po/ folder if not exists
+  fs::dir_create("po")
+  utils:::.getHelpFile(utils:::index.search(topic, find.package(package))) |>
+    rd_flatten_po() |>
+    write_string(context = topic) |>
+    writeLines(glue::glue("po/{topic}.pot"))
+
+}
+
+#' convert an help content into .po compatible line format
+#'
+#' @param Rd list of function help entries as a result of utils:::.getHelpFile(help(function))
+#' @param untranslatable vector of untranslatable words, default to help page section titles.
+#'
+#' @return a list of po file entries to be parsed by write_string()
+#' @noRd
+#'
 #' @examples
 #' utils:::.getHelpFile(help("mean")) |>
 #'   rd_flatten_po() |>

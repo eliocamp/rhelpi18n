@@ -3,6 +3,7 @@
 S3method(print,Rd_flat)
 export(i18n_module_create)
 export(i18n_translation_templates)
+export(po_extract_topic)
 export(rd_flat_read)
 export(rd_flat_write)
 export(read_translations)
