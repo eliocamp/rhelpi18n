@@ -1,4 +1,4 @@
-.translateHelpFile <- function(rd, pkgname, file, language = Sys.getenv("LANGUAGE")) {
+.translateHelpFile <- function(rd, pkgname, file, language = Sys.getenv("LANGUAGE", "en")) {
   if (is.null(language)) {
     return(rd)
   }
