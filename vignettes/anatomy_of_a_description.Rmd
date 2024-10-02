@@ -1,5 +1,5 @@
 ---
-title: "anatomy_of_a_description"
+title: "Anatomy of a DESCRIPTION"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{anatomy_of_a_description}
@@ -22,7 +22,7 @@ At the time of translation module creation, the handy package function `i18n_mod
 initialize a minimal DESCRIPTION file in the new module. Let's share some advices and best practice for 
 filling up the values in here.
 
-Let's start with the translation module of ggplot2 into `language = "fr"`
+Let's use the exemple of the translation module of ggplot2 into `language = "fr"`
 
 ## Package, Translates and Version
 
@@ -31,6 +31,8 @@ module name.
 Translates gets the package name and version :  
 
 We recommend translation module **version** to match the **package version**.
+
+ggplot2 content 
 
 ``` yaml
 Package: ggplot2
@@ -50,6 +52,7 @@ Translates: ggplot2 (== 3.5.1)
 
 Both shall be the exact translation of the original Title and Description.
 
+ggplot2 content 
 
 ``` yaml
 Title: Create Elegant Data Visualisations Using the Grammar of Graphics
@@ -59,7 +62,7 @@ Description: A system for 'declaratively' creating graphics,
     and it takes care of the details.
 ```
 
-turns into
+is turned into module as
 
 ``` yaml
 Title: Crée des Visualisations de Données Élégantes Basées sur la Grammaire des Graphiques
@@ -83,8 +86,8 @@ Language: fr
 
 ## imports and Remotes
 
-For the time beeing, {rhelpi18n} is only available in github and is a prerequisite for your 
-translation module. We can use DESCRIPTION to manage both : 
+For the time being, {rhelpi18n} is only available in github and is a prerequisite for your 
+translation module to work. We can use DESCRIPTION to manage both : 
 
 ``` yaml
 imports:
