@@ -2,21 +2,17 @@
 % Please edit documentation in R/rd-flat-write.R
 \name{rd_flat_write}
 \alias{rd_flat_write}
-\alias{rd_flat_read}
 \title{Write and read a flattened rd file}
 \usage{
 rd_flat_write(rd_flat, file)
-
-rd_flat_read(file)
 }
 \arguments{
 \item{rd_flat}{an rd_flattened file returned by \verb{[rd_flatten]}.}
 
-\item{file}{Yaml file with translations}
+\item{file}{path to the file.}
 }
 \description{
-Reads a yaml file with translations into a list. This list will then be used
-to translate the strings at runtime.
+Write and read a flattened rd file
 }
 \details{
 \code{rd_flat_write} writes the result of \verb{[rd_flatten]} into a yaml file that

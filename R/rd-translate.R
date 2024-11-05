@@ -31,7 +31,7 @@ translate <- function(original, translation) {
         if (section %in% c("examples", "title")) {
           original[[section]] <- paste0(
             translation[[section]]$translation,
-            "\\if{html}{\\out{<details style='display:inline'> <summary>} 🌐 \\out{</summary>} ",
+            "\\if{html}{\\out{<details style='display:inline'> <summary>} \U0001f310 \\out{</summary>} ",
             original[[section]]$original,
             "\\out{</details>}}")
         } else {

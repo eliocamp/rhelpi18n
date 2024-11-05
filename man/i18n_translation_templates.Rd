@@ -4,13 +4,15 @@
 \alias{i18n_translation_templates}
 \title{Creates templates for translation}
 \usage{
-i18n_translation_templates(rd_files, folder)
+i18n_translation_templates(rd_files, folder, macros = NULL)
 }
 \arguments{
 \item{rd_files}{character vector of rd files.}
 
 \item{folder}{folder where to save the templates. Will be created if it
 doesn't exist.}
+
+\item{macros}{a set of macros definitions.}
 }
 \description{
 Grabs .Rd files and creates yaml templates to then translate.

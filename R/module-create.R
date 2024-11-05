@@ -41,7 +41,10 @@ i18n_module_create <- function(module_name = NULL,
 
   rd_files <- list.files(file.path(package_path, "man"), pattern = "*.Rd", full.names = TRUE)
 
-  i18n_translation_templates(rd_files, file.path(module_path, "translations"))
+  macros <- tools::loadPkgRdMacros(package_path)
+
+  i18n_translation_templates(rd_files, file.path(module_path, "translations"),
+                             macros = macros)
 
   for (file in rd_files) {
     file.copy(file, file.path(module_path, "man_original", basename(file)))
@@ -67,9 +70,9 @@ copy_pkg_template <- function(path, rstudio_project = TRUE) {
     stop("Path to module exists and it's not empty.")
   }
 
-  skeleton <- system.file("extdata", "translation_skeleton.zip", package = "rhelpi18n")
-
-  utils::unzip(skeleton, exdir = path)
+  skeleton <- system.file("extdata", "translation_skeleton", package = "rhelpi18n") |>
+    list.files(full.names = TRUE) |>
+    file.copy(path, recursive = TRUE)
 
   if (is.null(rstudio_project)) {
     file.remove(file.path(path, "skeleton.Rproj"))
@@ -79,6 +82,7 @@ copy_pkg_template <- function(path, rstudio_project = TRUE) {
   }
   return(path)
 }
+
 
 modify_description <- function(path, module_name, package, version, language) {
   description_file <- file.path(path, "DESCRIPTION")
@@ -91,7 +95,6 @@ modify_description <- function(path, module_name, package, version, language) {
   ))
   writeLines(description_text, description_file)
 }
-
 
 # from usethis:::valid_package_name
 valid_package_name <- function (x) {
