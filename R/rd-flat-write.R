@@ -18,19 +18,3 @@ rd_flat_write <- function(rd_flat, file) {
   yaml::write_yaml(rd_flat, file)
 }
 
-
-#' Read a translated file
-#'
-#' Reads a yaml file with translations into a list. This list will then be used
-#' to translate the strings at runtime.
-#'
-#' @param file Yaml file with translations
-#' @rdname rd_flat_write
-#' @export
-rd_flat_read <- function(file) {
-  rd_flat <- yaml::read_yaml(file)
-  attr(rd_flat, "untranslatable") <- rd_flat[["untranslatable"]]
-  rd_flat[["untranslatable"]] <- NULL
-  class(rd_flat) <- rd_flat_class
-  rd_flat
-}
