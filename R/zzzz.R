@@ -1,6 +1,11 @@
 .onLoad <- function(libname, pkgname){
-  utils <- asNamespace('utils')
-
-  package_env <- as.environment('package:utils')
-  sudo_assignInNamespace(".getHelpFile", .getHelpFile, ns = utils, envir = package_env)
+  utils <- loadNamespace('utils')
+  getHelpFile <- get('.getHelpFile', envir = utils)
+  body(getHelpFile)[[2]] <- substitute({
+    on.exit(return(rhelpi18n:::.translateHelpFile(returnValue(), pkgname, file)))
+    step1
+  }, list(step1 = body(getHelpFile)[[2]]))
+  unlockBinding('.getHelpFile', utils)
+  assign('.getHelpFile', getHelpFile, envir = utils)
+  lockBinding('.getHelpFile', utils)
 }
