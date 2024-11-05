@@ -67,9 +67,9 @@ copy_pkg_template <- function(path, rstudio_project = TRUE) {
     stop("Path to module exists and it's not empty.")
   }
 
-  skeleton <- system.file("extdata", "translation_skeleton.zip", package = "rhelpi18n")
-
-  utils::unzip(skeleton, exdir = path)
+  skeleton <- system.file("extdata", "translation_skeleton", package = "rhelpi18n") |>
+    list.files(full.names = TRUE) |>
+    file.copy(path, recursive = TRUE)
 
   if (is.null(rstudio_project)) {
     file.remove(file.path(path, "skeleton.Rproj"))
