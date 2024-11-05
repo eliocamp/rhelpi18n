@@ -92,6 +92,9 @@ remove_newlines <- function(x) {
 
 to_text <- function(x) {
   tag <- attr(x, "Rd_tag")
+  if (length(x) == 0) {
+    return("")
+  }
   if (is.character(x) || !is.null(tag) && !startsWith(tag, "\\")) {
     return(x[[1]])
   }

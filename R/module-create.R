@@ -41,7 +41,10 @@ i18n_module_create <- function(module_name = NULL,
 
   rd_files <- list.files(file.path(package_path, "man"), pattern = "*.Rd", full.names = TRUE)
 
-  i18n_translation_templates(rd_files, file.path(module_path, "translations"))
+  macros <- tools::loadPkgRdMacros(package_path)
+
+  i18n_translation_templates(rd_files, file.path(module_path, "translations"),
+                             macros = macros)
 
   for (file in rd_files) {
     file.copy(file, file.path(module_path, "man_original", basename(file)))
