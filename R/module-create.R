@@ -39,6 +39,8 @@ i18n_module_create <- function(module_name = NULL,
   modify_description(module_path, module_name = module_name, package = package,
                      version = version, language = language)
 
+  add_translations_function(module_path)
+
   rd_files <- list.files(file.path(package_path, "man"), pattern = "*.Rd", full.names = TRUE)
 
   i18n_translation_templates(rd_files, file.path(module_path, "translations"))
@@ -80,6 +82,7 @@ copy_pkg_template <- function(path, rstudio_project = TRUE) {
   return(path)
 }
 
+
 modify_description <- function(path, module_name, package, version, language) {
   description_file <- file.path(path, "DESCRIPTION")
   description_template <- paste0(readLines(description_file), collapse = "\n")
@@ -90,6 +93,20 @@ modify_description <- function(path, module_name, package, version, language) {
     language = language
   ))
   writeLines(description_text, description_file)
+}
+
+
+add_translations_function <- function(path) {
+  # Copy the body of read_translations to avoid taking a
+  # runtime dependency on rhelpi18n.
+  lines <- c("#' @export",
+             "translations <- function() {",
+             paste0("  ", as.character(body(read_translations))[-1])           ,
+             "}")
+
+  path <- file.path(path, "R", "translations.R")
+
+  writeLines(lines, path)
 }
 
 

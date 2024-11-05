@@ -10,6 +10,4 @@ License: What license is it under?
 Language: {{language}}
 Translates: {{package_version}}
 LazyData: true
-imports:
-    rhelpi18n
 
