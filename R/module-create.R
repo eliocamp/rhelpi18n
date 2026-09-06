@@ -57,6 +57,9 @@ i18n_module_create <- function(
     module_path,
     rstudio_project = if (isTRUE(rstudio_project)) module_name else NULL
   )
+  
+  create_readme_file(get_package_readme(package, language), module_path)
+  
   modify_description(
     module_path,
     module_name = module_name,
@@ -266,7 +269,8 @@ copy_pkg_template <- function(path, rstudio_project = TRUE) {
 }
 
 
-modify_description <- function(path, module_name, package, version, language) {
+modify_description <- function(path, module_name, package, version, language,
+                              readme = NULL) {
   description_file <- file.path(path, "DESCRIPTION")
   description_template <- paste0(readLines(description_file), collapse = "\n")
 
@@ -275,10 +279,24 @@ modify_description <- function(path, module_name, package, version, language) {
     data = list(
       module_name = module_name,
       package_version = paste0(package, " (== ", version, ")"),
-      language = language
+      language = language,
+      readme = readme
     )
   )
   writeLines(description_text, description_file)
+}
+
+get_package_readme <- function(package, language) {
+  data <- list("Package" = package, "Language" = language)
+  template_path <- system.file("templates", "package-readme", package = "rdlocal")
+  template_content <- paste0(readLines(template_path), collapse = "\n")
+  whisker::whisker.render(template_content, data)
+}
+
+create_readme_file <- function(readme, module_path) {
+  if (!is.null(readme) && nzchar(readme)) {
+    writeLines(readme, file.path(module_path, "README.md"))
+  }
 }
 
 valid_package_name <- function(x) {
