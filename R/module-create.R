@@ -59,7 +59,7 @@ i18n_module_create <- function(
   )
   
   license <- get_package_license(package_path)
-  copy_license_file(package_path, module_path)
+  license_file_copied <- copy_license_file(package_path, module_path)
   
   modify_description(
     module_path,
@@ -67,7 +67,8 @@ i18n_module_create <- function(
     package = package,
     version = version,
     language = language,
-    license = license
+    license = license,
+    license_file_copied = license_file_copied
   )
 
   macros <- tools::loadPkgRdMacros(package_path)
@@ -272,9 +273,17 @@ copy_pkg_template <- function(path, rstudio_project = TRUE) {
 
 
 modify_description <- function(path, module_name, package, version, language,
-                              license = NULL) {
+                              license = NULL, license_file_copied = FALSE) {
   description_file <- file.path(path, "DESCRIPTION")
   description_template <- paste0(readLines(description_file), collapse = "\n")
+  
+  if (is.null(license)) {
+    if (license_file_copied) {
+      license <- "Inherited from source package"
+    } else {
+      license <- "Not Specified"
+    }
+  }
 
   description_text <- whisker::whisker.render(
     description_template,
@@ -285,6 +294,12 @@ modify_description <- function(path, module_name, package, version, language,
       license = license
     )
   )
+  
+  # Remove License: NA lines if no license field should be present
+  if (is.na(license)) {
+    description_text <- gsub("License: NA\n?", "", description_text)
+  }
+  
   writeLines(description_text, description_file)
 }
 
@@ -304,10 +319,10 @@ copy_license_file <- function(package_path, module_path) {
     if (file.exists(src_file)) {
       dest_file <- file.path(module_path, file)
       file.copy(src_file, dest_file, overwrite = TRUE)
-      return(invisible(TRUE))
+      return(TRUE)
     }
   }
-  invisible(FALSE)
+  return(FALSE)
 }
 
 valid_package_name <- function(x) {
